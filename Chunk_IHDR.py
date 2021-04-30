@@ -34,15 +34,17 @@ class IHDR:
         return print(text)
     
 def getIHDRChunk(png):
-    width = int.from_bytes(png[4], byteorder='big', signed=True)
-    heigth = int.from_bytes(png[5], byteorder='big', signed=True)
-    tmp = list(png[6])
-    bitDepth = tmp[0]
-    colorType = tmp[1]
-    compressionMethod = tmp[2]
-    filterMethod = tmp[3]
-    tmp2 = list(png[7])
-    interlaceMethod = tmp2[0]
-    return IHDR(width, heigth, bitDepth, colorType, compressionMethod, filterMethod, interlaceMethod)
-
+    if(png[3]==b'IHDR'):
+        width = int.from_bytes(png[4], byteorder='big', signed=True)
+        heigth = int.from_bytes(png[5], byteorder='big', signed=True)
+        tmp = list(png[6])
+        bitDepth = tmp[0]
+        colorType = tmp[1]
+        compressionMethod = tmp[2]
+        filterMethod = tmp[3]
+        tmp2 = list(png[7])
+        interlaceMethod = tmp2[0]
+        return IHDR(width, heigth, bitDepth, colorType, compressionMethod, filterMethod, interlaceMethod)
+    else:
+        return -1
 

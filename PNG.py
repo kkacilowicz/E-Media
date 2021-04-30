@@ -6,4 +6,7 @@ png = []
 
 png = read.readPNG(filename)
 IHDR = Chunk_IHDR.getIHDRChunk(png)
-IHDR.display()
+if IHDR == -1:
+    print("Chunk IHDR nie istenieje")
+else:
+    IHDR.display()
