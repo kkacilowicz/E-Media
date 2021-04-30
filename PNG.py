@@ -1,6 +1,7 @@
 import read
 import Chunk_IHDR
 import Chunk_PLTE
+import Chunk_IEND
 
 filename = "images3.png"
 png = []
@@ -13,6 +14,7 @@ if IHDR == -1:
 else:
    IHDR.display()
 
+'''
 if IHDR != -1 and IHDR.colorType != 0 and IHDR.colorType !=4:
    listPalette = Chunk_PLTE.getPLTEChunk(png)
    if listPalette == -1:
@@ -21,3 +23,6 @@ if IHDR != -1 and IHDR.colorType != 0 and IHDR.colorType !=4:
       Chunk_PLTE.display(listPalette)
 else:
    print("Chunk PLTE nie istnieje")
+'''
+print(png)
+Chunk_IEND.chunkIEND(png)
