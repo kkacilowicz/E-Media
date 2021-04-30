@@ -4,7 +4,7 @@ def readPNG(filename):
     pngRead = []
 
     while True:
-        byte = file.read(4)
+        byte = file.read(1)
         pngRead.append(byte)
         if not byte:
             file.close()
