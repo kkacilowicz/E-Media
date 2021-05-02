@@ -10,13 +10,12 @@ import Chunk_sBIT
 import Chunk_tEXt
 import Chunk_bKGD
 import Chunk_IDAT
-import Chunk
-#from PIL import Image
+from PIL import Image
 
 filename = "Images/images.png"
 png = []
-#im = Image.open(filename)
-# print(im.show())
+im = Image.open(filename)
+print(im.show())
 png = read.readPNG(filename)
 
 if read.checkPNG(png):
