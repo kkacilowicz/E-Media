@@ -2,9 +2,11 @@ import read
 import Chunk_IHDR
 import Chunk_PLTE
 import Chunk_IEND
+import Chunk_gAMA
+import Chunk
 from PIL import Image
 
-filename = "images3.png"
+filename = "Images/kwiat.png"
 png = []
 im = Image.open(filename)
 # print(im.show())
@@ -31,3 +33,12 @@ iend = Chunk_IEND.IEND()
 iend.chunkIEND(png)
 
 # print(png)
+#chunk = Chunk.Chunk()
+#p = chunk.searchChunk(png, b'g', b'A', b'M', b'A')
+#print(p)
+print(png[30:48])
+#l = chunk.lengthChunk(png, p)
+#print(l)
+gama = Chunk_gAMA.gAMA()
+print("bitDepth", IHDR.bitDepth)
+gama.chunkgAMA(png, IHDR.bitDepth)
