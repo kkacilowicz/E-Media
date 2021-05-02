@@ -6,6 +6,7 @@ import Chunk_gAMA
 import Chunk_cHRM
 import Chunk_sRGB
 import Chunk_pHYs
+import Chunk_sBIT
 
 #from PIL import Image
 
@@ -56,3 +57,7 @@ srgb.chunksRGB(png)
 # pHYs ********************************************************************************************
 phys = Chunk_pHYs.pHYs()
 phys.chunkpHYs(png)
+
+# sBIT ********************************************************************************************
+sbit = Chunk_sBIT.sBIT()
+sbit.chunksBIT(png, IHDR.colorType)
