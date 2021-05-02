@@ -10,7 +10,7 @@ import Chunk_sBIT
 
 #from PIL import Image
 
-filename = "Images/images1.png"
+filename = "Images/gora.png"
 png = []
 #im = Image.open(filename)
 # print(im.show())
