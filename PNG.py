@@ -60,7 +60,7 @@ phys.chunkpHYs(png)
 
 # sBIT ********************************************************************************************
 sbit = Chunk_sBIT.sBIT()
-if IHDR != -1:
+if IHDR == -1:
     print("Chunk sBIT nie może być odczytany bo nie ma chunku IHDR")
 else:
     sbit.chunksBIT(png, IHDR.colorType)
