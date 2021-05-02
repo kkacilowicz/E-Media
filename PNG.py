@@ -8,10 +8,10 @@ import Chunk_sRGB
 import Chunk_pHYs
 import Chunk_sBIT
 import Chunk_tEXt
-
+import Chunk_bKGD
 #from PIL import Image
 
-filename = "Images/images1.png"
+filename = "Images/gora.png"
 png = []
 #im = Image.open(filename)
 # print(im.show())
@@ -69,3 +69,10 @@ else:
 # tEXt ********************************************************************************************
 text = Chunk_tEXt.tEXt()
 text.chunktEXt(png)
+
+# bKGD ********************************************************************************************
+bkgd = Chunk_bKGD.bKGD()
+if IHDR == -1:
+    print("Chunk bKGD nie może być odczytany bo nie ma chunku IHDR")
+else:
+    bkgd.chunkbKGD(png, IHDR.colorType)

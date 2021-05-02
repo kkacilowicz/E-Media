@@ -19,12 +19,10 @@ class tEXt(Chunk):
         keyword = ""
         text = ""
         position = super(tEXt, self).searchChunk(png, b't', b'E', b'X', b't')
-        print("position", position)
         if position == -1:
             print("Chunk tEXt nie istnieje")
             return -1
         length = super(tEXt, self).lengthChunk(png, position)
-        print("length", length)
         t = position + 4
         index = -1
         for i in range(t, t + length):
