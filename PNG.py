@@ -7,10 +7,11 @@ import Chunk_cHRM
 import Chunk_sRGB
 import Chunk_pHYs
 import Chunk_sBIT
+import Chunk_tEXt
 
 #from PIL import Image
 
-filename = "Images/gora.png"
+filename = "Images/images1.png"
 png = []
 #im = Image.open(filename)
 # print(im.show())
@@ -64,3 +65,7 @@ if IHDR == -1:
     print("Chunk sBIT nie może być odczytany bo nie ma chunku IHDR")
 else:
     sbit.chunksBIT(png, IHDR.colorType)
+
+# tEXt ********************************************************************************************
+text = Chunk_tEXt.tEXt()
+text.chunktEXt(png)
