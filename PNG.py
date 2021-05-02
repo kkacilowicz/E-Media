@@ -4,10 +4,11 @@ import Chunk_PLTE
 import Chunk_IEND
 import Chunk_gAMA
 import Chunk_cHRM
+import Chunk_sRGB
 import Chunk
 #from PIL import Image
 
-filename = "Images/images3.png"
+filename = "Images/images4.png"
 png = []
 #im = Image.open(filename)
 # print(im.show())
@@ -42,7 +43,9 @@ gama = Chunk_gAMA.gAMA()
 gama.chunkgAMA(png)
 
 # cHRM ********************************************************************************************
-
-
 chrm = Chunk_cHRM.cHRM()
 chrm.chunkcHRM(png)
+
+# sRGB ********************************************************************************************
+srgb = Chunk_sRGB.sRGB()
+srgb.chunksRGB(png)
