@@ -11,6 +11,17 @@ class Chunk:
                             break
         return position
 
+    def search(self, png, start, end, x, y, z, t):
+        position = -1
+        for i in range(start, end):
+            if png[i] == x:
+                if png[i + 1] == y:
+                    if png[i + 2] == z:
+                        if png[i + 3] == t:
+                            position = i
+                            break
+        return position
+
     def lengthChunk(self, png, position):
         a = png[position - 4]
         b = png[position - 3]

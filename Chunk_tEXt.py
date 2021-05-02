@@ -16,39 +16,46 @@ class tEXt(Chunk):
         return "%s :  %s" % (keyword, text)
 
     def chunktEXt(self, png):
-        keyword = ""
-        text = ""
-        position = super(tEXt, self).searchChunk(png, b't', b'E', b'X', b't')
-        if position == -1:
-            print("Chunk tEXt nie istnieje")
-            return -1
-        length = super(tEXt, self).lengthChunk(png, position)
-        t = position + 4
-        index = -1
-        for i in range(t, t + length):
-            if png[i+1] == b'\x00':
-                index = i + 1
-                break
-        tmp = []
-        for i in range(t, index):
-            a = png[i]
-            if len(tmp) == 0:
-                tmp.append(a)
-                keyword = tmp[0]
-            else:
-                keyword = b''.join([tmp[0], a])
-                tmp.insert(0, keyword)
+        start = 0
+        number = 0
+        position = 0
+        while position != -1:
+            keyword = ""
+            text = ""
+            position = super(tEXt, self).search(png, start, len(png), b't', b'E', b'X', b't')
+            if position == -1:
+                if number == 0:
+                    print("Chunk tEXt nie istnieje")
+                    return -1
+                return 0
+            length = super(tEXt, self).lengthChunk(png, position)
+            t = position + 4
+            index = -1
+            for i in range(t, t + length):
+                if png[i+1] == b'\x00':
+                    index = i + 1
+                    break
+            tmp = []
+            for i in range(t, index):
+                a = png[i]
+                if len(tmp) == 0:
+                    tmp.append(a)
+                    keyword = tmp[0]
+                else:
+                    keyword = b''.join([tmp[0], a])
+                    tmp.insert(0, keyword)
 
-        tmp_text = []
-        for i in range(index+1, t + length):
-            a = png[i]
-            if len(tmp_text) == 0:
-                tmp_text.append(a)
-                text = tmp_text[0]
-            else:
-                text = b''.join([tmp_text[0], a])
-                tmp_text.insert(0, text)
+            tmp_text = []
+            for i in range(index+1, t + length):
+                a = png[i]
+                if len(tmp_text) == 0:
+                    tmp_text.append(a)
+                    text = tmp_text[0]
+                else:
+                    text = b''.join([tmp_text[0], a])
+                    tmp_text.insert(0, text)
 
-        object = tEXt(keyword, text)
-        print(object)
-        return object
+            object = tEXt(keyword, text)
+            print(object)
+            start = position + 4
+            number = number+1

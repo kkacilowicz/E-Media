@@ -11,7 +11,9 @@ def readPNG(filename):
             break
     return pngRead
 
-#print("szerokosc" + str(int.from_bytes(a,byteorder='big' , signed=True)))
-#print("wysokosc" + str(int.from_bytes(b,byteorder='big' , signed=True)))
-#print(int.from_bytes(c,byteorder='big' , signed=True))
-#print(int.from_bytes(d,byteorder='big' , signed=True))
+def checkPNG(png):
+    if png[1] == b'P':
+        if png[2] == b'N':
+            if png[3] == b'G':
+                return True
+    return False
