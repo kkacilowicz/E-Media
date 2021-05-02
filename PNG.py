@@ -12,10 +12,10 @@ import Chunk_bKGD
 import Chunk_IDAT
 from PIL import Image
 
-filename = "Images/images.png"
+filename = "Images/images4.png"
 png = []
 im = Image.open(filename)
-print(im.show())
+im.show()
 png = read.readPNG(filename)
 
 if read.checkPNG(png):
@@ -115,8 +115,12 @@ if read.checkPNG(png):
     print("++++++++++++++++                  CHUNK IDAT                               ++++++++++++++++")
     print()
     idat = Chunk_IDAT.IDAT()
-    #idat.chunkIDAT(png)
+    number = idat.chunkIDAT(png)
 
-    print(png[0:10])
+    if number != 0:
+            print("Liczba chanków IDAT: " + str(number))
+
+    print("-------------------------------------------------------------------------------------------")
+
 else:
     print("Wczytany plik nie jest formatu PNG")
