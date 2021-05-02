@@ -5,7 +5,7 @@ import Chunk_IEND
 import Chunk_gAMA
 import Chunk_cHRM
 import Chunk_sRGB
-import Chunk
+
 #from PIL import Image
 
 filename = "Images/images4.png"
