@@ -3,7 +3,7 @@ from Chunk import Chunk
 
 class gAMA(Chunk):
 
-    def chunkgAMA(self, png, bitDepth):
+    def chunkgAMA(self, png):
         position = super(gAMA, self).searchChunk(png, b'g', b'A', b'M', b'A')
         if position == -1:
             print("Chunk gAMA nie istnieje")

@@ -3,14 +3,17 @@ import Chunk_IHDR
 import Chunk_PLTE
 import Chunk_IEND
 import Chunk_gAMA
+import Chunk_cHRM
 import Chunk
-from PIL import Image
+#from PIL import Image
 
-filename = "Images/kwiat.png"
+filename = "Images/images3.png"
 png = []
-im = Image.open(filename)
+#im = Image.open(filename)
 # print(im.show())
 png = read.readPNG(filename)
+
+# IHDR ********************************************************************************************
 
 IHDR = Chunk_IHDR.getIHDRChunk(png)
 if IHDR == -1:
@@ -18,6 +21,7 @@ if IHDR == -1:
 else:
     IHDR.display()
 
+# PLTE ********************************************************************************************
 if IHDR != -1 and IHDR.colorType != 0 and IHDR.colorType != 4:
     plte = Chunk_PLTE.PLTE()
     listPalette = plte.getPLTEChunk(png)
@@ -29,16 +33,16 @@ if IHDR != -1 and IHDR.colorType != 0 and IHDR.colorType != 4:
 else:
     print("Chunk PLTE nie istnieje")
 
+# IEND ********************************************************************************************
 iend = Chunk_IEND.IEND()
 iend.chunkIEND(png)
 
-# print(png)
-#chunk = Chunk.Chunk()
-#p = chunk.searchChunk(png, b'g', b'A', b'M', b'A')
-#print(p)
-print(png[30:48])
-#l = chunk.lengthChunk(png, p)
-#print(l)
+# gAMA ********************************************************************************************
 gama = Chunk_gAMA.gAMA()
-print("bitDepth", IHDR.bitDepth)
-gama.chunkgAMA(png, IHDR.bitDepth)
+gama.chunkgAMA(png)
+
+# cHRM ********************************************************************************************
+
+
+chrm = Chunk_cHRM.cHRM()
+chrm.chunkcHRM(png)
