@@ -5,14 +5,17 @@ import Chunk_IEND
 import Chunk_gAMA
 import Chunk_cHRM
 import Chunk_sRGB
+import Chunk_pHYs
 
 #from PIL import Image
 
-filename = "Images/images4.png"
+filename = "Images/images1.png"
 png = []
 #im = Image.open(filename)
 # print(im.show())
 png = read.readPNG(filename)
+
+
 
 # IHDR ********************************************************************************************
 
@@ -49,3 +52,7 @@ chrm.chunkcHRM(png)
 # sRGB ********************************************************************************************
 srgb = Chunk_sRGB.sRGB()
 srgb.chunksRGB(png)
+
+# pHYs ********************************************************************************************
+phys = Chunk_pHYs.pHYs()
+phys.chunkpHYs(png)
