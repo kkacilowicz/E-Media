@@ -1,13 +1,11 @@
 import matplotlib.pyplot as plt
-from PIL import Image
 import numpy as np
-from skimage import color
-from skimage import io
+from PIL import Image
 
 
 def display():
     # Place for filename
-    filename = 'ptaszek.png'
+    filename = 'Images/ptaszek.png'
     # Read image date
     png = Image.open(filename)
     # Display image
@@ -15,23 +13,27 @@ def display():
     print(png.format)
 
 
-# Problems not with fft but with the cool way to display of data
+def rgb2gray(png):
+    return np.dot(png[..., :3], [0.2989, 0.5870, 0.1140])
 
-filename = 'ptaszek.png'
-# Open image
-png = io.imread(filename)
-# Image is converted to greyscale with formula L = R * 299/1000 + G * 587/1000 + B * 114/1000
-png_gray = color.rgb2gray(png)
-# We make a 2D discrete fft of image
-fft_png = np.fft.fft2(png)
-# Now we make a shift of fourier as on CPOIS
-pretty_fft = np.fft.fftshift(fft_png)
 
-plt.figure(1)
-plt.subplot(131), plt.imshow(png_gray, cmap='gray')
-plt.title('Input'), plt.xticks([]), plt.yticks([])
-plt.subplot(132), plt.imshow(png_gray)
-plt.title('Input'), plt.xticks([]), plt.yticks([])
-plt.subplot(133), plt.imshow(png_gray)
-plt.title('Input'), plt.xticks([]), plt.yticks([])
-plt.show()
+def fourier(filename):
+
+    # Open image
+    png = Image.open(filename).convert('L')
+    # We make a 2D discrete fft of image
+    fft_png = np.fft.fft2(png)
+    # Now we make a shift of fourier as on CPOIS
+    pretty_fft = np.fft.fftshift(fft_png)
+
+    magnitude = np.asarray(20*np.log10(np.abs(pretty_fft)), dtype=np.uint8)
+    phase = np.asarray(np.angle(pretty_fft), dtype=np.uint8)
+
+    plt.figure(1)
+    plt.subplot(131), plt.imshow(png, cmap='gray')
+    plt.title('Input'), plt.xticks([]), plt.yticks([])
+    plt.subplot(132), plt.imshow(magnitude, cmap='gray')
+    plt.title('Magnitude'), plt.xticks([]), plt.yticks([])
+    plt.subplot(133), plt.imshow(phase, cmap='gray')
+    plt.title('Phase'), plt.xticks([]), plt.yticks([])
+    plt.show()

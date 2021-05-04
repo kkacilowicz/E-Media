@@ -1,3 +1,4 @@
+import Fourier
 import read
 import Chunk_IHDR
 import Chunk_PLTE
@@ -12,7 +13,7 @@ import Chunk_bKGD
 import Chunk_IDAT
 from PIL import Image
 
-filename = "Images/images4.png"
+filename = "Images/images2.png"
 png = []
 im = Image.open(filename)
 im.show()
@@ -44,7 +45,7 @@ if read.checkPNG(png):
         if listPalette == -1:
             print("Chunk PLTE nie istnieje")
         else:
-           # plte.display(listPalette)
+            # plte.display(listPalette)
             print("CHUNK PLTE OK")
     else:
         print("Chunk PLTE nie istnieje")
@@ -118,9 +119,17 @@ if read.checkPNG(png):
     number = idat.chunkIDAT(png)
 
     if number != 0:
-            print("Liczba chanków IDAT: " + str(number))
+        print("Liczba chanków IDAT: " + str(number))
 
     print("-------------------------------------------------------------------------------------------")
+
+    print("++++++++++++++++             Plotting fourier transformation                ++++++++++++++++")
+    print()
+    Fourier.fourier(filename)
+
+    print("---------------------------------  Done   ---------------------------------------------------")
+
+
 
 else:
     print("Wczytany plik nie jest formatu PNG")
