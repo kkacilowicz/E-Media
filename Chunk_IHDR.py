@@ -15,7 +15,10 @@ class IHDR:
                "colorType: %d \n" \
                "compressionMethod: %d \n" \
                "filterMethod %d \n" \
-               "interlaceMethod: %d" % (self.width, self.heigth, self.bitDepth, self.colorType, self.compressionMethod, self.filterMethod, self.interlaceMethod)
+               "interlaceMethod: %d" % (
+               self.width, self.heigth, self.bitDepth, self.colorType, self.compressionMethod, self.filterMethod,
+               self.interlaceMethod)
+
     def display(self):
         # prawidłowe wartości głębi bitowej to 1,2,4,8,16
         # prawidłowe wartości typu koloru to 0,2,3,4,6. Kody typów kolorów reprezentują sumy następujących
@@ -31,7 +34,8 @@ Metoda kompresji obrazu wynosi : {self.compressionMethod}. Wartość 0 odpowiada
 Metoda filtracji wynosi {self.filterMethod}. Wartość 0 odpowiada filtrowi adaptacyjnemu z pięcioma podstawowymi typami filtrów
 Metoda przeplotu wynosi {self.interlaceMethod}. Wartość 0 mówi że obraz jest bez przeplotu a wartość 1: że wykorzystano przeplot Adam7.'''
         return print(text)
-    
+
+
 def getIHDRChunk(png):
     p = []
     index = 0
@@ -44,8 +48,7 @@ def getIHDRChunk(png):
         p.append(e)
         index = index + 1
 
-
-    if(p[3]==b'IHDR'):
+    if (p[3] == b'IHDR'):
         width = int.from_bytes(p[4], byteorder='big', signed=True)
         heigth = int.from_bytes(p[5], byteorder='big', signed=True)
         tmp = list(p[6])
@@ -59,3 +62,10 @@ def getIHDRChunk(png):
     else:
         return -1
 
+
+def getrawIHDRcopy(png):
+    mylist = []
+    for i in range(8,33):
+        a = bytes(png[i])
+        mylist.append(a)
+    return mylist

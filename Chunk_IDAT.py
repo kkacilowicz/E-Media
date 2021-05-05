@@ -8,7 +8,7 @@ class IDAT(Chunk):
         number = 0
         position = 0
         listIDAT = []
-        while position != 1:
+        while position != -1:
             position = super(IDAT, self).search(png, start, len(png), b'I', b'D', b'A', b'T')
             if position == -1:
                 if number == 0:

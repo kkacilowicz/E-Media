@@ -4,6 +4,7 @@ from Chunk import Chunk
 class IEND(Chunk):
     def chunkIEND(self, png):
         position = super(IEND, self).searchChunk(png, b'I', b'E', b'N', b'D')
+        print(position)
         if position == -1:
             print("Plik nie posiada chunk IEND")
             return -1
@@ -16,3 +17,11 @@ class IEND(Chunk):
             else:
                 print("Pole danych nie jest puste")
                 return -1
+
+    def getrawIENDcopy(self, png):
+        position = super(IEND, self).searchChunk(png, b'I', b'E', b'N', b'D')
+        mylist = []
+        for i in range(position - 4, len(png)):
+            a = bytes(png[i])
+            mylist.append(a)
+        return mylist
