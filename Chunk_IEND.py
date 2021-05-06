@@ -16,3 +16,11 @@ class IEND(Chunk):
             else:
                 print("Pole danych nie jest puste")
                 return -1
+
+    def getrawIENDcopy(self, png):
+        position = super(IEND, self).searchChunk(png, b'I', b'E', b'N', b'D')
+        mylist = []
+        for i in range(position - 4, len(png)):
+            a = bytes(png[i])
+            mylist.append(a)
+        return mylist

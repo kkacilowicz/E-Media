@@ -1,4 +1,5 @@
 import Fourier
+import Anonimization
 import read
 import Chunk_IHDR
 import Chunk_PLTE
@@ -16,7 +17,7 @@ from PIL import Image
 filename = "Images/images3.png"
 png = []
 im = Image.open(filename)
-#im.show()
+# im.show()
 png = read.readPNG(filename)
 
 if read.checkPNG(png):
@@ -45,8 +46,8 @@ if read.checkPNG(png):
         if listPalette == -1:
             print("Chunk PLTE nie istnieje")
         else:
-            plte.display(listPalette)
-            print("CHUNK PLTE wyświetlono")
+            # plte.display(listPalette)
+            print("CHUNK PLTE OK")
     else:
         print("Chunk PLTE nie istnieje")
 
@@ -125,11 +126,15 @@ if read.checkPNG(png):
 
     print("++++++++++++++++             Plotting fourier transformation                ++++++++++++++++")
     print()
-   # Fourier.fourier(filename)
+    Fourier.fourier(filename)
 
     print("---------------------------------  Done   ---------------------------------------------------")
 
+    Anonimization.AnonimizePNG(png, "Images/Anonimization.png", IHDR)
 
+    filename = "Images/Anonimization.png"
+    im = Image.open(filename)
+    im.show()
 
 else:
     print("Wczytany plik nie jest formatu PNG")
