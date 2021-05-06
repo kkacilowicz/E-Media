@@ -13,10 +13,10 @@ import Chunk_bKGD
 import Chunk_IDAT
 from PIL import Image
 
-filename = "Images/images2.png"
+filename = "Images/images3.png"
 png = []
 im = Image.open(filename)
-im.show()
+#im.show()
 png = read.readPNG(filename)
 
 if read.checkPNG(png):
@@ -45,8 +45,8 @@ if read.checkPNG(png):
         if listPalette == -1:
             print("Chunk PLTE nie istnieje")
         else:
-            # plte.display(listPalette)
-            print("CHUNK PLTE OK")
+            plte.display(listPalette)
+            print("CHUNK PLTE wyświetlono")
     else:
         print("Chunk PLTE nie istnieje")
 
@@ -125,7 +125,7 @@ if read.checkPNG(png):
 
     print("++++++++++++++++             Plotting fourier transformation                ++++++++++++++++")
     print()
-    Fourier.fourier(filename)
+   # Fourier.fourier(filename)
 
     print("---------------------------------  Done   ---------------------------------------------------")
 

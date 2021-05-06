@@ -1,15 +1,16 @@
 from Chunk import Chunk
-
+from PIL import Image, ImageDraw
+import matplotlib.pyplot as plt
+import numpy as np
 
 class PLTE(Chunk):
-    def __init__(self, paletteEntries=None, red=None, green=None, blue=None):
-        self.paletteEntries = paletteEntries
+    def __init__(self, red=None, green=None, blue=None):
         self.r = red
         self.g = green
         self.b = blue
 
     def __str__(self):
-        return "pallete entries: %d r: %d g: %d b: %d " % (self.paletteEntries, self.r, self.g, self.b)
+        return " r: %d g: %d b: %d " % (self.r, self.g, self.b)
 
     def getThreeBytesSeries(self, position, png, length):
         if length % 3 == 0:
@@ -40,10 +41,29 @@ class PLTE(Chunk):
             l = len(listThreeBytesSeries)
             for i in range(0, l):
                 a = list(listThreeBytesSeries[i])
-                object = PLTE(i + 1, a[0], a[1], a[2])
+                object = PLTE(a[0], a[1], a[2])
                 listPalette.append(object)
             return listPalette
 
     def display(self, listPalette):
-        for i in listPalette:
-            print(i)
+        PARAM = 20
+        W = 32 * PARAM
+        H = 8 * PARAM
+        data = np.zeros((H, W, 3), dtype=np.uint8)
+        l = 0
+        for i in range(0, 8):
+            for j in range(i * PARAM, i * PARAM + PARAM):
+                index = 32 * i
+                for k in range(0, W):
+                    object = PLTE()
+                    object = listPalette[index]
+                    data[j][k] = [object.r, object.g, object.b]
+                    l = l + 1
+                    if l == PARAM and index < len(listPalette):
+                        index = index + 1
+                        l = 0
+
+        img = Image.fromarray(data, 'RGB')
+        img.save("my.png")
+        img.show()
+
