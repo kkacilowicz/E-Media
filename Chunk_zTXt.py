@@ -16,7 +16,7 @@ class zTXt(Chunk):
         if self.compressedText is not None:
             tmp3 = self.compressedText
             compressedText = tmp3.decode("utf-8")
-        return " %s : %s " % (keyword, compressedText)
+        return "%s : %s " % (keyword, compressedText)
 
     def chunkzTXt(self, png):
         start = 0

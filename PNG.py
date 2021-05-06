@@ -15,7 +15,7 @@ import Chunk_bKGD
 import Chunk_IDAT
 from PIL import Image
 
-filename = "Images/gora.png"
+filename = "Images/images3.png"
 png = []
 im = Image.open(filename)
 # im.show()
@@ -144,7 +144,6 @@ if read.checkPNG(png):
     im = Image.open(filename)
    # im.show()
 
-    zTXt.chunkzTXt(png)
 
 else:
     print("Wczytany plik nie jest formatu PNG")
