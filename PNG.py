@@ -1,6 +1,7 @@
 import Fourier
 import Anonimization
 import read
+import Chunk_iTXt
 import Chunk_zTXt
 import Chunk_IHDR
 import Chunk_PLTE
@@ -110,6 +111,13 @@ if read.checkPNG(png):
     print()
     zTXt = Chunk_zTXt.zTXt()
     zTXt.chunkzTXt(png)
+
+    # iTXt ********************************************************************************************
+    print("-------------------------------------------------------------------------------------------")
+    print("++++++++++++++++                  CHUNK iTXt                               ++++++++++++++++")
+    print()
+    iTXt = Chunk_iTXt.iTXt()
+    iTXt.chunkiTXt(png)
 
     # bKGD ********************************************************************************************
     print("-------------------------------------------------------------------------------------------")
