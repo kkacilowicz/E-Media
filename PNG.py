@@ -14,7 +14,7 @@ import Chunk_bKGD
 import Chunk_IDAT
 from PIL import Image
 
-filename = "Images/images3.png"
+filename = "Images/images.png"
 png = []
 im = Image.open(filename)
 # im.show()
@@ -46,8 +46,8 @@ if read.checkPNG(png):
         if listPalette == -1:
             print("Chunk PLTE nie istnieje")
         else:
-            # plte.display(listPalette)
-            print("CHUNK PLTE OK")
+            plte.display(listPalette)
+            print("CHUNK PLTE wyświetlono")
     else:
         print("Chunk PLTE nie istnieje")
 

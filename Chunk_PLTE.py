@@ -61,7 +61,7 @@ class PLTE(Chunk):
             return mylist
 
     def display(self, listPalette):
-        PARAM = 20
+        PARAM = 15
         W = 32 * PARAM
         H = 8 * PARAM
         data = np.zeros((H, W, 3), dtype=np.uint8)
@@ -71,13 +71,15 @@ class PLTE(Chunk):
                 index = 32 * i
                 for k in range(0, W):
                     object = PLTE()
-                    object = listPalette[index]
-                    data[j][k] = [object.r, object.g, object.b]
-                    l = l + 1
-                    if l == PARAM and index < len(listPalette):
-                        index = index + 1
-                        l = 0
-
+                    try:
+                        object = listPalette[index]
+                        data[j][k] = [object.r, object.g, object.b]
+                        l = l+1
+                        if l == PARAM and index < len(listPalette):
+                            index = index + 1
+                            l = 0
+                    except:
+                        data[j][k] = [255, 255, 255]
         img = Image.fromarray(data, 'RGB')
         img.save("my.png")
         img.show()
