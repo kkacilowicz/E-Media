@@ -35,6 +35,12 @@ Metoda filtracji wynosi {self.filterMethod}. Wartość 0 odpowiada filtrowi adap
 Metoda przeplotu wynosi {self.interlaceMethod}. Wartość 0 mówi że obraz jest bez przeplotu a wartość 1: że wykorzystano przeplot Adam7.'''
         return print(text)
 
+    def isPLTEneccessary(self):
+        if self.colorType == 3:
+            return True
+        else:
+            return False
+
 
 def getIHDRChunk(png):
     p = []

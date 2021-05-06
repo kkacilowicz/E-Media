@@ -44,6 +44,21 @@ class PLTE(Chunk):
                 listPalette.append(object)
             return listPalette
 
+    def getrawPLTEdata(self, png):
+        position = super(PLTE, self).searchChunk(png, b'P', b'L', b'T', b'E')
+        mylist = []
+        if position == -1:
+            return -1
+        else:
+            length = super(PLTE, self).lengthChunk(png, position)
+            startofchunk = position - 4
+            # 12 = 4(length) + 4(name) + 4(crc)
+            endofchunk = startofchunk + length + 12
+            for i in range(startofchunk, endofchunk):
+                a = bytes(png[i])
+                mylist.append(a)
+            return mylist
+
     def display(self, listPalette):
         for i in listPalette:
             print(i)

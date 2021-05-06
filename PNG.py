@@ -1,4 +1,5 @@
 import Fourier
+import Anonimization
 import read
 import Chunk_IHDR
 import Chunk_PLTE
@@ -13,10 +14,10 @@ import Chunk_bKGD
 import Chunk_IDAT
 from PIL import Image
 
-filename = "Images/images2.png"
+filename = "Images/images3.png"
 png = []
 im = Image.open(filename)
-im.show()
+# im.show()
 png = read.readPNG(filename)
 
 if read.checkPNG(png):
@@ -129,7 +130,11 @@ if read.checkPNG(png):
 
     print("---------------------------------  Done   ---------------------------------------------------")
 
+    Anonimization.AnonimizePNG(png, "Images/Anonimization.png", IHDR)
 
+    filename = "Images/Anonimization.png"
+    im = Image.open(filename)
+    im.show()
 
 else:
     print("Wczytany plik nie jest formatu PNG")

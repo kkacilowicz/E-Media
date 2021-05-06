@@ -4,7 +4,6 @@ from Chunk import Chunk
 class IEND(Chunk):
     def chunkIEND(self, png):
         position = super(IEND, self).searchChunk(png, b'I', b'E', b'N', b'D')
-        print(position)
         if position == -1:
             print("Plik nie posiada chunk IEND")
             return -1

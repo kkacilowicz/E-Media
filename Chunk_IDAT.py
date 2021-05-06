@@ -46,7 +46,7 @@ class IDAT(Chunk):
             length = super(IDAT, self).lengthChunk(png, position)
             tmp = []
             startofchunk = position - 4
-            endofchunk = startofchunk + length + 4
+            endofchunk = startofchunk + length + 12
             for i in range(startofchunk, endofchunk):
                 a = bytes(png[i])
                 mylist.append(a)
