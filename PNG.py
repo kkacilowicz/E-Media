@@ -16,10 +16,10 @@ import Chunk_bKGD
 import Chunk_IDAT
 from PIL import Image
 
-filename = "Images/images3.png"
+filename = "Images/images2.png"
 png = []
 im = Image.open(filename)
-# im.show()
+im.show()
 png = read.readPNG(filename)
 
 if read.checkPNG(png):
@@ -142,7 +142,7 @@ if read.checkPNG(png):
 
     print("++++++++++++++++             Plotting fourier transformation                ++++++++++++++++")
     print()
-    #Fourier.fourier(filename)
+    Fourier.fourier(filename)
 
     print("---------------------------------  Done   --------------------------------------------------")
 
@@ -150,7 +150,7 @@ if read.checkPNG(png):
 
     filename = "Images/Anonimization.png"
     im = Image.open(filename)
-   # im.show()
+    im.show()
 
 
 else:

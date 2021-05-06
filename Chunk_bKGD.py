@@ -32,8 +32,7 @@ class bKGD(Chunk):
                 for i in range(t, t+length, 2):
                     a = png[i]
                     b = png[i+1]
-                    c = png[i+2]
-                    e = b''.join([a, b, c])
+                    e = b''.join([a, b])
                     listValue.append(int.from_bytes(e, byteorder='big', signed=True))
                 object = bKGD(typeColor, listValue[0], listValue[1], listValue[2])
                 print(object)

@@ -1,5 +1,6 @@
 from Chunk import Chunk
-
+from bs4 import BeautifulSoup
+import xml.etree.ElementTree as ET
 
 class iTXt(Chunk):
     def __init__(self, keyword=None, compressionFlag=None, compressionMethod=None, languageTag=None,
@@ -14,11 +15,11 @@ class iTXt(Chunk):
     def __str__(self):
         tmp = self.keyword
         keyword = tmp.decode("utf-8")
-        return "%s : flag %d method %d langTag %s tranKey %s Text %s" % (keyword, self.compressionFlag, self.compressionMethod,
-                                                                         self.languageTag, self.translateKeyword, self.text)
+        tmp2 = self.text
+        text = tmp2.decode("utf-8")
+        return "%s : %s" % (keyword, text)
 
     def chunkiTXt(self, png):
-        print(png[25728:25753])
         start = 0
         number = 0
         position = 0
@@ -33,7 +34,6 @@ class iTXt(Chunk):
                     return -1
                 return 0
             length = super(iTXt, self).lengthChunk(png, position)
-            print("position:", position, "długość:", length)
             t = position + 4
             index = -1
             for i in range(t, t + length):
@@ -62,7 +62,7 @@ class iTXt(Chunk):
 
             if index2-index > 3:
                 tmpLG = []
-                for i in range(index+2, index2):
+                for i in range(index+3, index2):
                     a = png[i]
                     if len(tmpLG) == 0:
                         tmpLG.append(a)
@@ -80,11 +80,11 @@ class iTXt(Chunk):
 
             if index3-index2 > 1:
                 tmpTK = []
-                for i in range(index+2, index2):
+                for i in range(index2+1, index3):
                     a = png[i]
                     if len(tmpTK) == 0:
                         tmpTK.append(a)
-                        translatedKeyword = tmpLG[0]
+                        translatedKeyword = tmpTK[0]
                     else:
                         translatedKeyword = b''.join([tmpTK[0], a])
                         tmpTK.insert(0, translatedKeyword)
@@ -99,7 +99,15 @@ class iTXt(Chunk):
                     text = b''.join([tmpTXT[0], a])
                     tmpTXT.insert(0, text)
 
-            object = iTXt(keyword, flag, method, languageTag, translatedKeyword, text )
-            print(object)
+            object = iTXt(keyword, flag, method, languageTag, translatedKeyword, text)
+
+            if keyword == b'XML:com.adobe.xmp':
+                xmpAsXML = BeautifulSoup(text, "lxml")
+                print(xmpAsXML.prettify())
+            else:
+                print(object)
+
+
+
             start = position + 4
             number = number + 1

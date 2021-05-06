@@ -61,7 +61,7 @@ class PLTE(Chunk):
             return mylist
 
     def display(self, listPalette):
-        PARAM = 15
+        PARAM = 20
         W = 32 * PARAM
         H = 8 * PARAM
         data = np.zeros((H, W, 3), dtype=np.uint8)
