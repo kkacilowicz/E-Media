@@ -81,6 +81,6 @@ class PLTE(Chunk):
                     except:
                         data[j][k] = [255, 255, 255]
         img = Image.fromarray(data, 'RGB')
-        img.save("my.png")
+        img.save("Images/my.png")
         img.show()
 
