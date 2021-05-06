@@ -1,6 +1,7 @@
 import Fourier
 import Anonimization
 import read
+import Chunk_zTXt
 import Chunk_IHDR
 import Chunk_PLTE
 import Chunk_IEND
@@ -14,7 +15,7 @@ import Chunk_bKGD
 import Chunk_IDAT
 from PIL import Image
 
-filename = "Images/images.png"
+filename = "Images/gora.png"
 png = []
 im = Image.open(filename)
 # im.show()
@@ -103,6 +104,13 @@ if read.checkPNG(png):
     text = Chunk_tEXt.tEXt()
     text.chunktEXt(png)
 
+    # zTXt ********************************************************************************************
+    print("-------------------------------------------------------------------------------------------")
+    print("++++++++++++++++                  CHUNK zTXt                               ++++++++++++++++")
+    print()
+    zTXt = Chunk_zTXt.zTXt()
+    zTXt.chunkzTXt(png)
+
     # bKGD ********************************************************************************************
     print("-------------------------------------------------------------------------------------------")
     print("++++++++++++++++                  CHUNK bKGD                               ++++++++++++++++")
@@ -126,15 +134,17 @@ if read.checkPNG(png):
 
     print("++++++++++++++++             Plotting fourier transformation                ++++++++++++++++")
     print()
-    Fourier.fourier(filename)
+    #Fourier.fourier(filename)
 
-    print("---------------------------------  Done   ---------------------------------------------------")
+    print("---------------------------------  Done   --------------------------------------------------")
 
     Anonimization.AnonimizePNG(png, "Images/Anonimization.png", IHDR)
 
     filename = "Images/Anonimization.png"
     im = Image.open(filename)
-    im.show()
+   # im.show()
+
+    zTXt.chunkzTXt(png)
 
 else:
     print("Wczytany plik nie jest formatu PNG")
