@@ -46,9 +46,16 @@ class IDAT(Chunk):
             length = super(IDAT, self).lengthChunk(png, position)
             tmp = []
             startofchunk = position - 4
-            endofchunk = startofchunk + length + 12
+            endofchunk = startofchunk + length + 8
             for i in range(startofchunk, endofchunk):
                 a = bytes(png[i])
                 mylist.append(a)
+            checksum = zlib.crc32(png[position])
+            for i in range(position + 1, endofchunk):
+                a = bytes(png[i])
+                checksum = zlib.crc32(a, checksum)
+            checksum = checksum & 0xffffffff
+            crc_computed = checksum.to_bytes(4, 'big')
+            mylist.append(crc_computed)
             start = position + 4
 

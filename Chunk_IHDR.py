@@ -1,3 +1,9 @@
+import struct
+import zlib
+
+from crc import CrcCalculator, Crc32
+
+
 class IHDR:
     def __init__(self, width, heigth, bitDepth, colorType, compressionMethod, filterMethod, interlaceMethod):
         self.width = width
@@ -16,8 +22,8 @@ class IHDR:
                "compressionMethod: %d \n" \
                "filterMethod %d \n" \
                "interlaceMethod: %d" % (
-               self.width, self.heigth, self.bitDepth, self.colorType, self.compressionMethod, self.filterMethod,
-               self.interlaceMethod)
+                   self.width, self.heigth, self.bitDepth, self.colorType, self.compressionMethod, self.filterMethod,
+                   self.interlaceMethod)
 
     def display(self):
         # prawidłowe wartości głębi bitowej to 1,2,4,8,16
@@ -69,9 +75,17 @@ def getIHDRChunk(png):
         return -1
 
 
+# już prawie prawie tylko tą paczkę rozbić na 4 pojedyncze bajty
 def getrawIHDRcopy(png):
     mylist = []
-    for i in range(8,33):
+    for i in range(8, 29):
         a = bytes(png[i])
         mylist.append(a)
+    checksum = zlib.crc32(png[12])
+    for i in range(13, 29):
+        a = bytes(png[i])
+        checksum = zlib.crc32(a, checksum)
+    checksum = checksum & 0xffffffff
+    crc_computed = checksum.to_bytes(4, 'big')
+    mylist.append(crc_computed)
     return mylist

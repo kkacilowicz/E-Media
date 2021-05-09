@@ -1,7 +1,10 @@
+import zlib
+
 from Chunk import Chunk
 from PIL import Image, ImageDraw
 import matplotlib.pyplot as plt
 import numpy as np
+
 
 class PLTE(Chunk):
     def __init__(self, red=None, green=None, blue=None):
@@ -53,11 +56,19 @@ class PLTE(Chunk):
         else:
             length = super(PLTE, self).lengthChunk(png, position)
             startofchunk = position - 4
-            # 12 = 4(length) + 4(name) + 4(crc)
-            endofchunk = startofchunk + length + 12
+            # 8 = 4(length) + 4(name)
+            endofchunk = startofchunk + length + 8
             for i in range(startofchunk, endofchunk):
                 a = bytes(png[i])
                 mylist.append(a)
+            # Now program computes crc manually and adds at the end of chunk
+            checksum = zlib.crc32(png[position])
+            for i in range(position + 1, endofchunk):
+                a = bytes(png[i])
+                checksum = zlib.crc32(a, checksum)
+            checksum = checksum & 0xffffffff
+            crc_computed = checksum.to_bytes(4, 'big')
+            mylist.append(crc_computed)
             return mylist
 
     def display(self, listPalette):
@@ -74,7 +85,7 @@ class PLTE(Chunk):
                     try:
                         object = listPalette[index]
                         data[j][k] = [object.r, object.g, object.b]
-                        l = l+1
+                        l = l + 1
                         if l == PARAM and index < len(listPalette):
                             index = index + 1
                             l = 0
@@ -83,4 +94,3 @@ class PLTE(Chunk):
         img = Image.fromarray(data, 'RGB')
         img.save("Images/my.png")
         img.show()
-

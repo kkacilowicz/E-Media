@@ -1,3 +1,5 @@
+import zlib
+
 from Chunk import Chunk
 
 
@@ -20,7 +22,17 @@ class IEND(Chunk):
     def getrawIENDcopy(self, png):
         position = super(IEND, self).searchChunk(png, b'I', b'E', b'N', b'D')
         mylist = []
-        for i in range(position - 4, len(png)):
+        # crc is computed with the use of Name + Data of chunk
+        checksum = zlib.crc32(png[position])
+        # Append all data without crc
+        # -5 because -4 (prev crc) and theres alway one ' ' at the end
+        for i in range(position - 4, len(png) - 5):
             a = bytes(png[i])
             mylist.append(a)
+        for i in range(position+1, len(png) - 5):
+            a = bytes(png[i])
+            checksum = zlib.crc32(a, checksum)
+        checksum = checksum & 0xffffffff
+        crc_computed = checksum.to_bytes(4, 'big')
+        mylist.append(crc_computed)
         return mylist
