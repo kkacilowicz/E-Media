@@ -16,7 +16,7 @@ import Chunk_bKGD
 import Chunk_IDAT
 from PIL import Image
 
-filename = "Images/images2.png"
+filename = "Images/images7_ITXt.png"
 png = []
 im = Image.open(filename)
 im.show()
