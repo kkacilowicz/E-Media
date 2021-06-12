@@ -44,7 +44,7 @@ class Key:
     def generate_p(self):
         p = 0
 
-        while not self.test_Miller_Rabin(p, 200):  # dopóki nie znajdzie się w 100 iteracjach
+        while not self.test_Miller_Rabin(p, 200):  # dopóki nie znajdzie się w 200 iteracjach
             p = secrets.randbelow(2 ** (self.keysize // 2))
 
         self.p = p
@@ -52,7 +52,7 @@ class Key:
     def generate_q(self):
         q = 0
 
-        while not self.test_Miller_Rabin(q, 200):  # dopóki nie znajdzie się w 100 iteracjach
+        while not self.test_Miller_Rabin(q, 200):  # dopóki nie znajdzie się w 200 iteracjach
             q = secrets.randbelow(2 ** (self.keysize // 2))
 
         self.q = q
@@ -72,7 +72,7 @@ class Key:
         self.p_q = (self.p - 1) * (self.q - 1)
 
         while True:
-            e = random.randrange(2 ** (size_n-1), 2 ** size_n)
+            e = secrets.randbelow(2 ** size_n)
             if self.GCD(e, self.p_q) == 1 and e < self.n:
                 break
         self.e = e
@@ -88,13 +88,15 @@ class Key:
         self.generate_e()
         self.generate_d()
 
-        publicKey = ( self.e, self.n)
+        print(self.e)
+        print(self.p)
+        print(self.q)
+        print(self.d)
+
+        publicKey = (self.e, self.n)
         privateKey = (self.d, self.n)
 
         return publicKey, privateKey
 
-# key = Key()
-# e = key.generate_Keys()
-#
-# print(e[0][0])
-# print(e[1])
+key = Key()
+key.generate_Keys()
