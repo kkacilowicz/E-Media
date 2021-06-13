@@ -57,12 +57,10 @@ def ECBEncryption(png):
 
 
 
-print(len(png))
+
 
 ECBEncryption(png)
 
-print(" Start ==============================")
 PNG_RSA.PNG_start(png)
-print(" End ==============================")
 PNG_RSA.PNG_end(png)
 

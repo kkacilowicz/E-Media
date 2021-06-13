@@ -6,8 +6,8 @@ def PNG_start(png):
     idat = Chunk_IDAT.IDAT()
     start_position = idat.getstartIDAT(png)
     tmp = png[0:start_position]
-    print("start_position : ", start_position)
-    print(len(png[0:start_position]))
+    # print("start_position : ", start_position)
+    # print(len(png[0:start_position]))
     # PNG_MAGIC_NUMBER = b'\x89PNG\r\n\x1a\n'
 
     file = open("images_RSA.png", "wb")
@@ -16,7 +16,7 @@ def PNG_start(png):
     for i in tmp:
         k = k + 1
         file.write(i)
-    print("k ", k)
+    # print("k ", k)
 
     file.close()
 
@@ -30,9 +30,9 @@ def PNG_end(png):
     end_position = idat.getendIDAT(png)
     tmp = png[end_position:]
 
-    print("len : ", len(png))
-    print(" end_ pos ", end_position)
-    print(" len - end:", len(png) - end_position)
+    # print("len : ", len(png))
+    # print(" end_ pos ", end_position)
+    # print(" len - end:", len(png) - end_position)
 
 
     file = open("images_RSA.png", "ab")
