@@ -81,7 +81,8 @@ class IDAT(Chunk):
     def getstartIDAT(self, png): # daje miejsce gdzie się chunk IDAT zaczyna
         position = super(IDAT, self).search(png, 0, len(png), b'I', b'D', b'A', b'T')
         assert position != -1, "Chunk IDAT doesn't exist "
-        return position - 4
+        length = super(IDAT, self).lengthChunk(png, position)
+        return position - 4, length
 
     def getendIDAT(self, png): # daje pozycje gdzie się wszystkie chunki IDAT kończą
         start = 0

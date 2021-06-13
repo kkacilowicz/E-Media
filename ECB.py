@@ -3,8 +3,6 @@ from keyGenerator import Key
 import Chunk_IDAT
 import read
 import PNG_RSA
-from PIL import Image
-import io
 
 filename = "Images/images3.png"
 png = read.readPNG(filename)
@@ -14,21 +12,18 @@ def ECBEncryption(png):
     key = Key()
     key.generate_Keys()
     idat = Chunk_IDAT.IDAT()
-    IDAT_list = idat.getdateIDAT(png) # lista IDAT ( same dane)
-
-    idat.getstartIDAT(png)
-    idat.getendIDAT(png)
+    IDAT_list = idat.getdateIDAT(png)  # lista IDAT ( same dane)
+    filename = "images_RSA.png"
+    PNG_RSA.PNG_start(png, filename)
 
     # IDAT_list[0]-> to pierwszy chunk IDAT
     # IDAT_list[0][0] -> to pierwszy element danych w pierwszym chunku IDAT
-    # print(IDAT_list[0])
-    # print(IDAT_list[0][256])
 
     for i in range(0, len(IDAT_list)):
 
         blox_m = []
 
-        if len(IDAT_list[i]) % 256 != 0: # dopisanie zer tak aby wszędzie były pełne bloki
+        if len(IDAT_list[i]) % 256 != 0:  # dopisanie zer tak aby wszędzie były pełne bloki
             mod = len(IDAT_list[0]) % 256
             add = 256 - mod
             for k in range(0, add):
@@ -46,23 +41,24 @@ def ECBEncryption(png):
             if (j + 1) % 256 == 0 and j != 0:
                 blox_m.append(tmp[0])
                 tmp = []
-                # TU SĄ POPRAWNIE ZROBIONE BLOKI PO 256 ELEMENTÓW , TRZEBA JE ZASZYFROWAĆ, ZAMIENIĆ NA BAJTY I DO PLIKU PNG
 
+        encryption = []
+        for m in blox_m:
+            encryption_ = RSA.encryption(int.from_bytes(m, byteorder='big', signed=True), key.n, key.e)
+            encryption.append(encryption_.to_bytes(encryption_.bit_length() + 7 // 8, byteorder='big'))
 
+        sum = 0
+        for s in range(0, len(encryption)):
+            sum += len(encryption[s])
 
-        print(blox_m)
-        print(len(blox_m))
+        size = sum.to_bytes(4, byteorder='big')
 
+        PNG_RSA.PNG_new_IDAT(png, filename, size, encryption)
 
-
-
-
+    PNG_RSA.PNG_end(png, filename)
+    PNG_RSA.display_PNG(filename)
 
 
 ECBEncryption(png)
-filename = "images_RSA.png"
-PNG_RSA.PNG_start(png, filename)
-PNG_RSA.PNG_new_IDAT(png, filename)
-PNG_RSA.PNG_end(png, filename)
-PNG_RSA.display_PNG(filename)
+
 
