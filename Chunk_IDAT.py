@@ -59,3 +59,39 @@ class IDAT(Chunk):
             mylist.append(crc_computed)
             start = position + 4
 
+
+    def getdateIDAT(self, png):
+        start = 0
+        position = 0
+        datelist = []
+        while position != -1:
+            position = super(IDAT, self).search(png, start, len(png), b'I', b'D', b'A', b'T')
+            if position == -1:
+                return datelist
+            length = super(IDAT, self).lengthChunk(png, position)
+            startofchunk = position+4
+            endofchunk = startofchunk + length
+            datelist_tmp = []
+            for i in range(startofchunk, endofchunk):
+                a = bytes(png[i])
+                datelist_tmp.append(a)
+            datelist.append(datelist_tmp)
+            start = position + 4
+
+    def getstartIDAT(self, png): # daje miejsce gdzie się chunk IDAT zaczyna
+        position = super(IDAT, self).search(png, 0, len(png), b'I', b'D', b'A', b'T')
+        assert position != -1, "Chunk IDAT doesn't exist "
+        return position - 4
+
+    def getendIDAT(self, png): # daje pozycje gdzie się wszystkie chunki IDAT kończą
+        start = 0
+        position = 0
+        endofchunk = 0
+        while position != -1:
+            position = super(IDAT, self).search(png, start, len(png), b'I', b'D', b'A', b'T')
+            if position == -1:
+                return endofchunk
+            length = super(IDAT, self).lengthChunk(png, position)
+            startofchunk = position+4
+            endofchunk = startofchunk + length + 8
+            start = position + 4

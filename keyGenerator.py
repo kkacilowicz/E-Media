@@ -88,15 +88,9 @@ class Key:
         self.generate_e()
         self.generate_d()
 
-        print(self.e)
-        print(self.p)
-        print(self.q)
-        print(self.d)
+
 
         publicKey = (self.e, self.n)
         privateKey = (self.d, self.n)
 
         return publicKey, privateKey
-
-key = Key()
-key.generate_Keys()

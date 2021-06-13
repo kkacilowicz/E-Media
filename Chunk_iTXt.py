@@ -1,6 +1,5 @@
 from Chunk import Chunk
 from bs4 import BeautifulSoup
-import xml.etree.ElementTree as ET
 
 class iTXt(Chunk):
     def __init__(self, keyword=None, compressionFlag=None, compressionMethod=None, languageTag=None,
