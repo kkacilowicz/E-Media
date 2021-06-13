@@ -93,5 +93,5 @@ class IDAT(Chunk):
                 return endofchunk
             length = super(IDAT, self).lengthChunk(png, position)
             startofchunk = position+4
-            endofchunk = startofchunk + length + 8
+            endofchunk = startofchunk + length + 4
             start = position + 4
