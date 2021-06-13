@@ -60,7 +60,9 @@ def ECBEncryption(png):
 
 
 ECBEncryption(png)
-
-PNG_RSA.PNG_start(png)
-PNG_RSA.PNG_end(png)
+filename = "images_RSA.png"
+PNG_RSA.PNG_start(png, filename)
+PNG_RSA.PNG_new_IDAT(png, filename)
+PNG_RSA.PNG_end(png, filename)
+PNG_RSA.display_PNG(filename)
 

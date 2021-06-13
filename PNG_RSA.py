@@ -2,7 +2,7 @@ import Chunk_IDAT
 import read
 from PIL import Image
 
-def PNG_start(png):
+def PNG_start(png, filename):
     idat = Chunk_IDAT.IDAT()
     start_position = idat.getstartIDAT(png)
     tmp = png[0:start_position]
@@ -10,7 +10,7 @@ def PNG_start(png):
     # print(len(png[0:start_position]))
     # PNG_MAGIC_NUMBER = b'\x89PNG\r\n\x1a\n'
 
-    file = open("images_RSA.png", "wb")
+    file = open(filename, "wb")
     # file.write(PNG_MAGIC_NUMBER)
     k = 0
     for i in tmp:
@@ -24,8 +24,24 @@ def PNG_start(png):
     # print(png_1)
     # print(len(png_1))
 
+def PNG_new_IDAT(png,filename ):
+    idat = Chunk_IDAT.IDAT()
+    start_position = idat.getstartIDAT(png)
+    end_position = idat.getendIDAT(png)
+    tmp = png[start_position : end_position ]
+    file = open( filename, "ab")
+    # file.write(PNG_MAGIC_NUMBER)
+    for i in tmp:
+        file.write(i)
 
-def PNG_end(png):
+    file.close()
+
+    png_1=read.readPNG("images_RSA.png")
+    print(png_1)
+    print(len(png_1))
+
+
+def PNG_end(png, filename):
     idat = Chunk_IDAT.IDAT()
     end_position = idat.getendIDAT(png)
     tmp = png[end_position:]
@@ -35,7 +51,7 @@ def PNG_end(png):
     # print(" len - end:", len(png) - end_position)
 
 
-    file = open("images_RSA.png", "ab")
+    file = open( filename, "ab")
     # file.write(PNG_MAGIC_NUMBER)
     for i in tmp:
         file.write(i)
@@ -46,3 +62,7 @@ def PNG_end(png):
     # print(873+246)
     # print(png_1)
     # print(len(png_1))
+
+def display_PNG(filename):
+    image = Image.open(filename)
+    image.show()
