@@ -21,17 +21,16 @@ def PNG_start(png, filename):
 
     file.close()
 
-    png_1 = read.readPNG("images_RSA.png")
-    # print(png_1)
-    print("etap 1: ", len(png_1))
+    # png_1 = read.readPNG("images_RSA.png")
+    # # print(png_1)
+    # print("etap 1: ", len(png_1))
 
 
 def PNG_new_IDAT(png, filename, length, data):
     idat = Chunk_IDAT.IDAT()
-    # end_position = idat.getendIDAT(png)
 
     [start_position, lengthData] = idat.getstartIDAT(png)
-    end_position = start_position + lengthData
+    end_position = start_position + lengthData + 4
 
     tmp = png[end_position - 4:end_position]
 
@@ -42,16 +41,22 @@ def PNG_new_IDAT(png, filename, length, data):
     file.write(b'A')
     file.write(b'T')
 
-    for i in data:
-        file.write(i)
+    file.write(data)
+
+    # for i in data:
+    #     file.write(i)
 
     for i in tmp:
         file.write(i)
 
     file.close()
 
-    png_1 = read.readPNG("images_RSA.png")
-    print("etap 2 len png 1: ", len(png_1))
+    # png_1 = read.readPNG("images_RSA.png")
+    # f = open("tmp.txt", "w+")
+    # for i in png_1:
+    #     f.write(str(i) + " ")
+    # f.close()
+    # print("etap 2 len png 1: ", len(png_1))
 
 
 def PNG_end(png, filename):
@@ -70,10 +75,10 @@ def PNG_end(png, filename):
 
     file.close()
 
-    png_1=read.readPNG("images_RSA.png")
+    png_1 = read.readPNG("images_RSA.png")
     # print(873+246)
     # print(png_1)
-    print("koniec:", len(png_1))
+    # print("długość nowego:", len(png_1))
 
 
 def display_PNG(filename):

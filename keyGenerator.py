@@ -88,8 +88,6 @@ class Key:
         self.generate_e()
         self.generate_d()
 
-
-
         publicKey = (self.e, self.n)
         privateKey = (self.d, self.n)
 
