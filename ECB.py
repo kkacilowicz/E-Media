@@ -16,16 +16,16 @@ png = read.readPNG(filename)
 
 class ECB:
     def __init__(self):
-        self.keysize_byte = 1024
-        self.keysize = self.keysize_byte // 8
-        self.size_block = self.keysize_byte // 8 - 1
+        self.keysize_ = 1024
+        self.keysize = self.keysize_ // 8
+        self.size_block = self.keysize_ // 8 - 1
 
 
 
     def ECBEncryption(self, png, n, e):
         idat = Chunk_IDAT.IDAT()
-        IDAT_list = idat.getdateIDAT(png)  # lista IDAT ( same dane)
-
+        IDAT_list= idat.getdateIDAT(png)  # lista IDAT ( same dane)
+        # IDAT_list = IDAT_[0:2 * self.size_block]
         filename = "images_RSA.png"
         PNG_RSA.PNG_start(png, filename)
 
@@ -57,7 +57,7 @@ class ECB:
 
 
             for m in blox_m:
-                encryption_ = RSA.encryption(int.from_bytes(m, byteorder='big', signed=True), n, e)
+                encryption_ = RSA.encryption(int.from_bytes(m, byteorder='big'), n, e)
                 encryption.append(encryption_.to_bytes(self.keysize, byteorder='big'))
 
             tmp2 = [] # dodane że wszystkie bloki łączą się w całość
@@ -94,21 +94,14 @@ class ECB:
                     foo = b''.join([tmp[0], IDAT_list[i][j]])
                     tmp.insert(0, foo)
 
-                if (j + 1) % self.size_block == 0 and j != 0:
+                if (j + 1) % self.keysize == 0 and j != 0:
                     blox_c.append(tmp[0])
                     tmp = []
 
             descryption = []
             for c in blox_c:
                 descryption_ = RSA.decryption(int.from_bytes(c, byteorder='big', signed=True), n, d)
-                print("len:", len(c))
-                if len(c) + self.size_block > self.original_length:
-                    d_l = self.original_length - len(c)
-                    print("1: ", d_l)
-                else:
-                    d_l = self.size_block
-                    print("2:", d_l)
-                descryption.append(descryption_.to_bytes(d_l, byteorder='big'))
+                descryption.append(descryption_.to_bytes(self.size_block, byteorder='big'))
 
 
             tmp2 = [] # dodane że wszystkie bloki łączą się w całość
