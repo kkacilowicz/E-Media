@@ -3,9 +3,9 @@ from keyGenerator import Key
 import Chunk_IDAT
 import read
 import PNG_RSA
-import secrets
+import random
 
-filename = "Images/ball.png"
+filename = "Images/images3.png"
 png = read.readPNG(filename)
 print("długośc png orygianlnego: ", len(png))
 
@@ -14,22 +14,22 @@ class CBC:
         self.keysize_ = 1024
         self.keysize = self.keysize_ // 8
         self.size_block = self.keysize_ // 8 - 1
+        self.IV = random.getrandbits(self.size_block)
 
     # m - blok. v - wektor
 
     def xor(self, m, v):
         return m ^ v
 
-
     def CBCEncryption(self, png, n, e):
         idat = Chunk_IDAT.IDAT()
         IDAT_list = idat.getdateIDAT(png)  # lista IDAT ( same dane)
-        filename = "images_RSA.png"
+
+        filename = "images_CBC_encryption.png"
         PNG_RSA.PNG_start(png, filename)
         block_size = self.size_block
 
-        IV = secrets.randbelow(2 ** block_size)
-
+        IV = self.IV
         encryption = []
 
         for i in range(0, len(IDAT_list)):
@@ -37,12 +37,6 @@ class CBC:
             block_m = []
             tmp = []
             k = -1
-
-            if len(IDAT_list[i]) % 256 != 0:  # dopisanie zer tak aby wszędzie były pełne bloki
-                mod = len(IDAT_list[0]) % 256
-                add = 256 - mod
-                for l in range(0, add):
-                    IDAT_list[0].append(b'\x00')
 
             for j in range(0, len(IDAT_list[i])):
 
@@ -55,10 +49,10 @@ class CBC:
                 if (j + 1) % block_size == 0 and j != 0:
                     k += 1
                     block_m.append(tmp[0])
-                    xor_ = self.xor(int.from_bytes(block_m[k], byteorder='big', signed=True), IV)
+                    xor_ = self.xor(int.from_bytes(block_m[k], byteorder='big'), IV)
                     encryption_ = RSA.encryption(xor_, n, e)  # wynik RSA - liczba
-                    r = encryption_.to_bytes(n.bit_length(), byteorder='big')
-                    IV = int.from_bytes(r, byteorder='big', signed=True)
+                    r = encryption_.to_bytes(self.keysize, byteorder='big')
+                    IV = int.from_bytes(r, byteorder='big')
                     encryption.append(r)  # wyniki RSA jako tablice bajtów
                     tmp = []
 
@@ -84,11 +78,8 @@ class CBC:
         IDAT_list = idat.getdateIDAT(png)  # lista IDAT ( same dane)
         filename = "images_CBC_decryption.png"
         PNG_RSA.PNG_start(png, filename)
-        block_size = n.bit_length()
-        print("długość n:", n.bit_length())
 
-        IV = secrets.randbelow(2 ** block_size)
-
+        IV = self.IV
         decryption = []
 
         for i in range(0, len(IDAT_list)):
@@ -105,15 +96,13 @@ class CBC:
                     foo = b''.join([tmp[0], IDAT_list[i][j]])
                     tmp.insert(0, foo)
 
-                if (j + 1) % self.size_block == 0 and j != 0:
+                if (j + 1) % self.keysize == 0 and j != 0:
                     k += 1
                     block_c.append(tmp[0])
-                    decryption_ = RSA.decryption(int.from_bytes(block_c[k], byteorder='big', signed=True), n,
-                                                 d)  # wynik RSA - liczba
+                    decryption_ = RSA.decryption(int.from_bytes(block_c[k], byteorder='big', signed=True), n, d)  # wynik RSA - liczba
                     xor_ = self.xor(IV, decryption_)
                     IV = xor_
-                    decryption.append(xor_.to_bytes(n.bit_length(),
-                                                    byteorder='big'))  # wyniki RSA jako tablice bajtów
+                    decryption.append(xor_.to_bytes(self.size_block, byteorder='big'))  # wyniki RSA jako tablice bajtów
                     tmp = []
 
             tmp2 = []  # dodane że wszystkie bloki łączą się w całość
@@ -135,4 +124,4 @@ key = Key()
 key.generate_Keys()
 cbc = CBC()
 cbc.CBCEncryption(png, key.n, key.e)
-cbc.CBCDecrytpion("images_RSA.png", key.n, key.d)
+cbc.CBCDecrytpion("images_CBC_encryption.png", key.n, key.d)
